@@ -11,16 +11,14 @@ public class JpaApplication {
         EntityManager entityManager = applicationContext.getEntityManager();
 
         entityManager.getTransaction().begin();
-        Province oldProvince = entityManager.find(Province.class, 2L);
-        oldProvince.setName("11");
-        System.out.println("em contain after find: " + entityManager.contains(oldProvince));
-        entityManager.detach(oldProvince);
-        System.out.println("em contain after detach: " + entityManager.contains(oldProvince));
-//        System.out.println("detach: " + entityManager.contains(oldProvince));
-        entityManager.getTransaction().commit();
 
-//        Province province = entityManager.find(Province.class, 1L);
-//        System.out.println(province);
+        Province province = Province.builder()
+                .name("merged4").build();
+        Province mergedEntity = entityManager.merge(province);
+        province.setName("merged5");
+        mergedEntity.setName("merged6");
+
+        entityManager.getTransaction().commit();
 
     }
 }
