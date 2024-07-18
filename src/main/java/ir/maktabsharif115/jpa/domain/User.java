@@ -1,10 +1,7 @@
 package ir.maktabsharif115.jpa.domain;
 
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +25,23 @@ public class User extends BaseEntity<Long> {
     public static final String PASSWORD = "password";
     public static final String MOBILE_NUMBER = "mobile_number";
     public static final String USER_ID = "user_id";
+    public static final String USERS_ADDRESS = "users_address";
+    public static final String ADDRESS_ID = "address_id";
 
-    @OneToMany(mappedBy = "user")
-//    @JoinColumn(name = USER_ID)
+    @ManyToMany
+    @JoinTable(
+            name = USERS_ADDRESS,
+            joinColumns = {
+                    @JoinColumn(name = USER_ID, referencedColumnName = ID)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = ADDRESS_ID, referencedColumnName = ID)
+            },
+            indexes = {
+                    @Index(columnList = USER_ID),
+                    @Index(columnList = ADDRESS_ID)
+            }
+    )
     private Set<Address> addresses;
 
     @Column(name = FIRST_NAME)

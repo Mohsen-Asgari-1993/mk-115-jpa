@@ -1,7 +1,9 @@
 package ir.maktabsharif115.jpa.domain;
 
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
@@ -17,11 +19,6 @@ public class Address extends BaseEntity<Long> {
 
     public static final String ADDRESS = "address";
     public static final String POSTAL_CODE = "postal_code";
-
-    @ManyToOne
-//    user_id
-    @JoinColumn(name = "u_i")
-    private User user;
 
     @Column(name = ADDRESS)
     private String address;
