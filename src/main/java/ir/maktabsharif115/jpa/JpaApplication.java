@@ -6,6 +6,7 @@ import ir.maktabsharif115.jpa.domain.User;
 import ir.maktabsharif115.jpa.domain.UserDetail;
 import ir.maktabsharif115.jpa.util.ApplicationContext;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import lombok.SneakyThrows;
 
 import java.util.HashSet;
@@ -22,12 +23,19 @@ public class JpaApplication {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
         EntityManager entityManager = applicationContext.getEntityManager();
 
-        initUsers(entityManager);
+        /*TypedQuery<User> typedQuery = entityManager.createQuery(
+                "from User u where u.userDetail.firstName like ?1"
+                , User.class);
+        typedQuery.setParameter(1, "%m%");
+        System.out.println(typedQuery.getResultList().size());*/
 
-//        List<User> users = entityManager.createQuery("""
-//                from User u
-//                """, User.class).getResultList();
-//        users.forEach(JpaApplication::printUserDetail);
+        TypedQuery<User> typedQuery = entityManager.createQuery(
+                "from User u where u.userDetail.firstName like :firstName"
+                , User.class);
+        typedQuery.setParameter("firstName", "%m%");
+        System.out.println(typedQuery.getResultList().size());
+
+
     }
 
     private static void printUserDetail(User user) {
