@@ -27,8 +27,10 @@ public class User extends BaseEntity<Long> {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String MOBILE_NUMBER = "mobile_number";
+    public static final String USER_ID = "user_id";
 
     @OneToMany(mappedBy = "user")
+//    @JoinColumn(name = USER_ID)
     private Set<Address> addresses;
 
     @Column(name = FIRST_NAME)
