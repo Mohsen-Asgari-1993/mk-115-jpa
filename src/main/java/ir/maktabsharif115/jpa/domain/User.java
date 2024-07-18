@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,7 +43,19 @@ public class User extends BaseEntity<Long> {
                     @Index(columnList = ADDRESS_ID)
             }
     )
-    private Set<Address> addresses;
+    private Set<Address> manyToManyAddress = new HashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "oneToManyAddress_id")
+    private Set<Address> oneToManyAddress = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manyToOneAddress_id")
+    private Address manyToOneAddress;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oneToOneAddress_id")
+    private Address oneToOneAddress;
 
     @Column(name = FIRST_NAME)
     private String firstName;
