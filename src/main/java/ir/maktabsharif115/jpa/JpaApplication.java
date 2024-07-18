@@ -23,16 +23,11 @@ public class JpaApplication {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
         EntityManager entityManager = applicationContext.getEntityManager();
 
-        /*TypedQuery<User> typedQuery = entityManager.createQuery(
-                "from User u where u.userDetail.firstName like ?1"
-                , User.class);
-        typedQuery.setParameter(1, "%m%");
-        System.out.println(typedQuery.getResultList().size());*/
-
-        TypedQuery<User> typedQuery = entityManager.createQuery(
-                "from User u where u.userDetail.firstName like :firstName"
-                , User.class);
-        typedQuery.setParameter("firstName", "%m%");
+        TypedQuery<User> typedQuery = entityManager.createQuery("from User u", User.class);
+//        offset
+        typedQuery.setFirstResult(35);
+//        size
+        typedQuery.setMaxResults(10);
         System.out.println(typedQuery.getResultList().size());
 
 
