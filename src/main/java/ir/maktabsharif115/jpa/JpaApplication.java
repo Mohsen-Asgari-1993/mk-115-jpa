@@ -1,7 +1,6 @@
 package ir.maktabsharif115.jpa;
 
 import ir.maktabsharif115.jpa.domain.Province;
-import ir.maktabsharif115.jpa.domain.enumeration.ProvinceType;
 import ir.maktabsharif115.jpa.util.ApplicationContext;
 import jakarta.persistence.EntityManager;
 
@@ -13,13 +12,12 @@ public class JpaApplication {
 
         entityManager.getTransaction().begin();
 
-        Province province = Province.builder().provinceType(ProvinceType.C)
-                .name("tehran").build();
+        Province province = entityManager.find(Province.class, 1L);
 
-        entityManager.persist(province);
+        System.out.println(province);
 
-        province.setName("yazd");
-
+        province.setName("tehran");
+        System.out.println(province);
 
         entityManager.getTransaction().commit();
 
