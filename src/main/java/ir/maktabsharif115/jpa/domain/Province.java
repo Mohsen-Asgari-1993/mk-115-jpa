@@ -1,6 +1,7 @@
 package ir.maktabsharif115.jpa.domain;
 
 
+import ir.maktabsharif115.jpa.base.domain.BaseEntity;
 import ir.maktabsharif115.jpa.domain.enumeration.ProvinceType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,19 +20,12 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Province {
+public class Province extends BaseEntity<Long> {
 
     public static final String TABLE_NAME = "province";
 
-    public static final String ID = "id";
     public static final String NAME = "name";
     public static final String PROVINCE_TYPE = "province_type";
-
-    @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-    @GeneratedValue
-    @Column(name = ID)
-    private Long id;
 
     @Column(name = NAME, columnDefinition = "varchar")
     private String name;
