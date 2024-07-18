@@ -25,24 +25,23 @@ public class JpaApplication {
 //        initUsers(entityManager);
 
         List<User> users = entityManager.createQuery("""
-                from User u join fetch u.manyToManyAddress join fetch u.oneToManyAddress
-                join fetch u.manyToOneAddress join fetch u.oneToOneAddress
+                from User u
                 """, User.class).getResultList();
         users.forEach(JpaApplication::printUserDetail);
     }
 
     private static void printUserDetail(User user) {
         Set<Address> manyToManyAddress = user.getManyToManyAddress();
-        manyToManyAddress.size();
+        System.out.println(manyToManyAddress.size());
 //        System.out.println("manyToManyAddress size: " + manyToManyAddress.size());
         Set<Address> oneToManyAddress = user.getOneToManyAddress();
-        oneToManyAddress.size();
+        System.out.println(oneToManyAddress.size());
 //        System.out.println("oneToManyAddress size: " + oneToManyAddress.size());
         Address oneToOneAddress = user.getOneToOneAddress();
-        Long oneToOneAddressid = oneToOneAddress.getId();
+        System.out.println(oneToOneAddress.getAddress());
 //        System.out.println("oneToOneAddress id: " + oneToOneAddress.getId());
         Address manyToOneAddress = user.getManyToOneAddress();
-        Long manyToOneAddressid = manyToOneAddress.getId();
+        System.out.println(manyToOneAddress.getAddress());
 //        System.out.println("manyToOneAddress id: " + manyToOneAddress.getId());
     }
 
