@@ -1,6 +1,6 @@
 package ir.maktabsharif115.jpa;
 
-import ir.maktabsharif115.jpa.domain.Province;
+import ir.maktabsharif115.jpa.domain.Address;
 import ir.maktabsharif115.jpa.util.ApplicationContext;
 import jakarta.persistence.EntityManager;
 import lombok.SneakyThrows;
@@ -14,10 +14,11 @@ public class JpaApplication {
 
         entityManager.getTransaction().begin();
 
-        Province province = entityManager.find(Province.class, 302L);
-        province.setName(province.getName() + " #");
+        Address address = entityManager.find(Address.class, 1L);
+        System.out.println(address);
 
         entityManager.getTransaction().commit();
+
 
     }
 }

@@ -3,6 +3,7 @@ package ir.maktabsharif115.jpa.domain;
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class User extends BaseEntity<Long> {
     public static final String PASSWORD = "password";
     public static final String MOBILE_NUMBER = "mobile_number";
 
+    @OneToOne
+    private Address address;
+
     @Column(name = FIRST_NAME)
     private String firstName;
 
@@ -39,4 +43,12 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = MOBILE_NUMBER)
     private String mobileNumber;
+
+    @Override
+    public String toString() {
+        return "User{" +
+               "id='" + getId() + '\'' +
+               ", username='" + username + '\'' +
+               '}';
+    }
 }
