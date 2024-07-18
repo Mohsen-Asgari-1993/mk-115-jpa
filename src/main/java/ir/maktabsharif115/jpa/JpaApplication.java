@@ -14,10 +14,8 @@ public class JpaApplication {
         Province oldProvince = entityManager.find(Province.class, 2L);
         oldProvince.setName("11");
         System.out.println("em contain after find: " + entityManager.contains(oldProvince));
-        entityManager.remove(oldProvince);
-        System.out.println("em contain after remove: " + entityManager.contains(oldProvince));
-        entityManager.persist(oldProvince);
-        System.out.println("em contain after persist: " + entityManager.contains(oldProvince));
+        entityManager.detach(oldProvince);
+        System.out.println("em contain after detach: " + entityManager.contains(oldProvince));
 //        System.out.println("detach: " + entityManager.contains(oldProvince));
         entityManager.getTransaction().commit();
 
