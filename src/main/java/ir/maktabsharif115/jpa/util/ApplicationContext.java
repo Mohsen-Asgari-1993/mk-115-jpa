@@ -6,6 +6,18 @@ import jakarta.persistence.Persistence;
 
 public class ApplicationContext {
 
+    private ApplicationContext() {
+    }
+
+    private static ApplicationContext applicationContext;
+
+    public static ApplicationContext getInstance() {
+        if (applicationContext == null) {
+            applicationContext = new ApplicationContext();
+        }
+        return applicationContext;
+    }
+
     private EntityManagerFactory emf;
 
     private EntityManager em;
