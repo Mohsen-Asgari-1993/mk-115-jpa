@@ -7,12 +7,12 @@
     <persistence-unit name="default">
         <properties>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:postgresql://localhost:5432/postgres?currentSchema=mk_115"/>
+                      value="jdbc:postgresql://localhost:5432/postgres?currentSchema=mk_115_jpa"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
             <property name="jakarta.persistence.jdbc.password" value="12345678"/>
-            <property name="show_sql" value="true"/>
-            <property name="format_sql" value="true"/>
-            <property name="hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>
