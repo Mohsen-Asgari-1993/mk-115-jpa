@@ -39,4 +39,7 @@ public class Province {
     @Enumerated(EnumType.STRING)
     @Column(name = PROVINCE_TYPE)
     private ProvinceType provinceType;
+
+    @Transient
+    private String title;
 }
