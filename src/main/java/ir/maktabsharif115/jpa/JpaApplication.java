@@ -12,9 +12,17 @@ public class JpaApplication {
         EntityManager entityManager = applicationContext.getEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(Province.builder().provinceType(ProvinceType.C)
-                .name("tehran").build());
+
+        Province province = Province.builder().provinceType(ProvinceType.C)
+                .name("tehran").build();
+
+        entityManager.persist(province);
+
+        province.setName("yazd");
+
+
         entityManager.getTransaction().commit();
+
 
 //        Province province = entityManager.find(Province.class, 1L);
 //        System.out.println(province);
