@@ -3,12 +3,14 @@ package ir.maktabsharif115.jpa.domain;
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -26,8 +28,8 @@ public class User extends BaseEntity<Long> {
     public static final String PASSWORD = "password";
     public static final String MOBILE_NUMBER = "mobile_number";
 
-    @OneToOne
-    private Address address;
+    @OneToMany(mappedBy = "user")
+    private Set<Address> addresses;
 
     @Column(name = FIRST_NAME)
     private String firstName;
