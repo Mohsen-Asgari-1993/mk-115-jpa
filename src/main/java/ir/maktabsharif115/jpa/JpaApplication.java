@@ -12,11 +12,11 @@ public class JpaApplication {
 
         entityManager.getTransaction().begin();
 
-        Province province = Province.builder()
-                .name("merged4").build();
-        Province mergedEntity = entityManager.merge(province);
-        province.setName("merged5");
-        mergedEntity.setName("merged6");
+        Province province = entityManager.find(Province.class, 152L);
+        entityManager.detach(province);
+        entityManager.persist(province);
+//        province = entityManager.merge(province);
+//        province.setName(province.getName().concat(province.getName()));
 
         entityManager.getTransaction().commit();
 
