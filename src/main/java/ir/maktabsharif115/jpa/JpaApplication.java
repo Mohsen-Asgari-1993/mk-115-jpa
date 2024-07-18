@@ -3,12 +3,12 @@ package ir.maktabsharif115.jpa;
 import com.github.javafaker.Faker;
 import ir.maktabsharif115.jpa.domain.Address;
 import ir.maktabsharif115.jpa.domain.User;
+import ir.maktabsharif115.jpa.domain.UserDetail;
 import ir.maktabsharif115.jpa.util.ApplicationContext;
 import jakarta.persistence.EntityManager;
 import lombok.SneakyThrows;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class JpaApplication {
@@ -22,12 +22,12 @@ public class JpaApplication {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
         EntityManager entityManager = applicationContext.getEntityManager();
 
-//        initUsers(entityManager);
+        initUsers(entityManager);
 
-        List<User> users = entityManager.createQuery("""
-                from User u
-                """, User.class).getResultList();
-        users.forEach(JpaApplication::printUserDetail);
+//        List<User> users = entityManager.createQuery("""
+//                from User u
+//                """, User.class).getResultList();
+//        users.forEach(JpaApplication::printUserDetail);
     }
 
     private static void printUserDetail(User user) {
@@ -53,10 +53,27 @@ public class JpaApplication {
             user.setOneToManyAddress(getRandomAddress(entityManager, 2));
             user.setManyToOneAddress(getAddress(entityManager));
             user.setOneToOneAddress(getAddress(entityManager));
-            user.setFirstName(faker.name().firstName());
-            user.setLastName(faker.name().lastName());
-            user.setUsername(faker.name().username());
-            user.setPassword(faker.name().fullName());
+            user.setUserDetail(
+                    new UserDetail(
+                            faker.name().firstName(),
+                            faker.name().lastName(),
+                            faker.name().username(),
+                            faker.name().fullName()
+                    )
+            );
+            user.getMobileNumbers().add(faker.number().digits(11));
+            user.getUserDetails().add(
+                    new UserDetail(
+                            faker.name().firstName(),
+                            faker.name().lastName(),
+                            faker.name().username(),
+                            faker.name().fullName()
+                    )
+            );
+//            user.setFirstName(faker.name().firstName());
+//            user.setLastName(faker.name().lastName());
+//            user.setUsername(faker.name().username());
+//            user.setPassword(faker.name().fullName());
             user.setMobileNumber(faker.number().digits(11));
             entityManager.persist(user);
         }

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -20,14 +21,13 @@ public class User extends BaseEntity<Long> {
 
     public static final String TABLE_NAME = "users";
 
-    public static final String FIRST_NAME = "first_name";
-    public static final String LAST_NAME = "last_name";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
+
     public static final String MOBILE_NUMBER = "mobile_number";
     public static final String USER_ID = "user_id";
     public static final String USERS_ADDRESS = "users_address";
     public static final String ADDRESS_ID = "address_id";
+    public static final String USER_MOBILE_NUMBERS = "user_mobile_numbers";
+    public static final String USER_DETAILS = "user_details";
 
     @ManyToMany
     @JoinTable(
@@ -57,26 +57,24 @@ public class User extends BaseEntity<Long> {
     @JoinColumn(name = "oneToOneAddress_id")
     private Address oneToOneAddress;
 
-    @Column(name = FIRST_NAME)
-    private String firstName;
-
-    @Column(name = LAST_NAME)
-    private String lastName;
-
-    @Column(name = USERNAME, nullable = false)
-    private String username;
-
-    @Column(name = PASSWORD)
-    private String password;
+    @Embedded
+    private UserDetail userDetail;
 
     @Column(name = MOBILE_NUMBER)
     private String mobileNumber;
 
-    @Override
-    public String toString() {
-        return "User{" +
-               "id='" + getId() + '\'' +
-               ", username='" + username + '\'' +
-               '}';
-    }
+    @ElementCollection
+    @CollectionTable(
+            name = USER_MOBILE_NUMBERS,
+            joinColumns = @JoinColumn(name = USER_ID, referencedColumnName = ID)
+    )
+    @Column(name = MOBILE_NUMBER)
+    private Set<String> mobileNumbers = new TreeSet<>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = USER_DETAILS,
+            joinColumns = @JoinColumn(name = USER_ID, referencedColumnName = ID)
+    )
+    private Set<UserDetail> userDetails = new HashSet<>();
 }
