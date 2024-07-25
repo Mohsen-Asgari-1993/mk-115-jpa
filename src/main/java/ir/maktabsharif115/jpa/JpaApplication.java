@@ -25,19 +25,28 @@ public class JpaApplication {
     public static void main(String[] args) {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
         EntityManager entityManager = applicationContext.getEntityManager();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         Scanner scanner = new Scanner(System.in);
-        String jsonSearch = scanner.nextLine();
+        String json = scanner.nextLine();
+        CustomerSearch customerSearch = objectMapper.readValue(json, CustomerSearch.class);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        CustomerSearch customerSearch = objectMapper.readValue(
-                jsonSearch, CustomerSearch.class
+//        select customer from Customer
+//        select c.id from Customer c
+//        c.firstName <==> customerRoot.get("firstName")
+//        select c from Customer c where c.firstName
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<String> query = criteriaBuilder.createQuery(String.class);
+//        Root<Customer> customerRoot = query.from(Customer.class);
+//        query.select(customerRoot.get("firstName"));
+//        List<String> resultList = entityManager.createQuery(query).getResultList();
+//        System.out.println(resultList.size());
+
+        searchOnCustomersV2(
+                new CustomerRepositoryImpl(entityManager),
+                customerSearch,
+                objectMapper
         );
-
-
-        CustomerRepository customerRepository = new CustomerRepositoryImpl(entityManager);
-        searchOnCustomersV1(customerRepository, customerSearch, objectMapper);
-//        searchOnCustomersV2(customerRepository, customerSearch, objectMapper);
 
     }
 
@@ -72,7 +81,7 @@ public class JpaApplication {
                 objectMapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(
-                                customerRepository.findAll(customerSearch)
+                                customerRepository.findAllWithCriteria(customerSearch)
                                         .stream().map(customer -> new CustomerCardboardDTO(
                                                         customer.getId(),
                                                         customer.getFirstName(),

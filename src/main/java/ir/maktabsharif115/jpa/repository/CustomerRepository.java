@@ -8,4 +8,6 @@ import java.util.List;
 public interface CustomerRepository {
 
     List<Customer> findAll(CustomerSearch search);
+
+    List<Customer> findAllWithCriteria(CustomerSearch search);
 }
