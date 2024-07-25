@@ -1,15 +1,13 @@
 package ir.maktabsharif115.jpa.domain;
 
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -21,60 +19,24 @@ public class User extends BaseEntity<Long> {
 
     public static final String TABLE_NAME = "users";
 
-
     public static final String MOBILE_NUMBER = "mobile_number";
-    public static final String USER_ID = "user_id";
-    public static final String USERS_ADDRESS = "users_address";
-    public static final String ADDRESS_ID = "address_id";
-    public static final String USER_MOBILE_NUMBERS = "user_mobile_numbers";
-    public static final String USER_DETAILS = "user_details";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
 
-    @ManyToMany
-    @JoinTable(
-            name = USERS_ADDRESS,
-            joinColumns = {
-                    @JoinColumn(name = USER_ID, referencedColumnName = ID)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = ADDRESS_ID, referencedColumnName = ID)
-            },
-            indexes = {
-                    @Index(columnList = USER_ID),
-                    @Index(columnList = ADDRESS_ID)
-            }
-    )
-    private Set<Address> manyToManyAddress = new HashSet<>();
+    @Column(name = FIRST_NAME)
+    private String firstName;
 
-    @OneToMany
-    @JoinColumn(name = "oneToManyAddress_id")
-    private Set<Address> oneToManyAddress = new HashSet<>();
+    @Column(name = LAST_NAME)
+    private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manyToOneAddress_id")
-    private Address manyToOneAddress;
+    @Column(name = USERNAME)
+    private String username;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oneToOneAddress_id")
-    private Address oneToOneAddress;
-
-    @Embedded
-    private UserDetail userDetail;
+    @Column(name = PASSWORD)
+    private String password;
 
     @Column(name = MOBILE_NUMBER)
     private String mobileNumber;
-
-    @ElementCollection
-    @CollectionTable(
-            name = USER_MOBILE_NUMBERS,
-            joinColumns = @JoinColumn(name = USER_ID, referencedColumnName = ID)
-    )
-    @Column(name = MOBILE_NUMBER)
-    private Set<String> mobileNumbers = new TreeSet<>();
-
-    @ElementCollection
-    @CollectionTable(
-            name = USER_DETAILS,
-            joinColumns = @JoinColumn(name = USER_ID, referencedColumnName = ID)
-    )
-    private Set<UserDetail> userDetails = new HashSet<>();
 }
