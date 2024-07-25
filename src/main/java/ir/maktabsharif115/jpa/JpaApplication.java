@@ -17,18 +17,17 @@ public class JpaApplication {
         ApplicationContext applicationContext = ApplicationContext.getInstance();
         EntityManager entityManager = applicationContext.getEntityManager();
 
-        TypedQuery<User> typedQuery = entityManager.createQuery("from User u where u.id = :id", User.class);
+        TypedQuery<User> typedQuery = entityManager.createQuery("from User u ", User.class);
 
 //        EntityGraph<?> test = entityManager.createEntityGraph("test");
 //        test.addAttributeNodes("roles", "roles.operations");
 
-        typedQuery.setParameter("id", 1L)
+        typedQuery
                 .setHint("jakarta.persistence.fetchgraph",
                         entityManager.getEntityGraph(User.FULL_GRAPH)
-                );
+                ).setMaxResults(5);
 
-        User user = typedQuery.getSingleResult();
-        System.out.println(user.getId());
+        System.out.println(typedQuery.getResultList().size());
 
     }
 
