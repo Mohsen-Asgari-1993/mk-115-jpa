@@ -1,7 +1,9 @@
 package ir.maktabsharif115.jpa.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +23,6 @@ public class Customer extends User {
     @Column(name = PASSWORD_VALID_DATE)
     private ZonedDateTime passwordValidDate;
 
-
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Wallet wallet;
 }

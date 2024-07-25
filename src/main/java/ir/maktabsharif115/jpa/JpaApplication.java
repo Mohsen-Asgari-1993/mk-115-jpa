@@ -2,9 +2,8 @@ package ir.maktabsharif115.jpa;
 
 import com.github.javafaker.Faker;
 import ir.maktabsharif115.jpa.domain.Address;
-import ir.maktabsharif115.jpa.domain.Admin;
 import ir.maktabsharif115.jpa.domain.Customer;
-import ir.maktabsharif115.jpa.domain.User;
+import ir.maktabsharif115.jpa.domain.Wallet;
 import ir.maktabsharif115.jpa.util.ApplicationContext;
 import jakarta.persistence.EntityManager;
 import lombok.SneakyThrows;
@@ -24,30 +23,13 @@ public class JpaApplication {
         EntityManager entityManager = applicationContext.getEntityManager();
 
         entityManager.getTransaction().begin();
-
-        entityManager.persist(new User());
-        entityManager.persist(new Admin());
-        entityManager.persist(new Customer());
-
+        Customer customer = new Customer();
+        customer.setFirstName("mohsen");
+        customer.setLastName("asgari");
+        customer.setUsername("mat");
+        create(new Customer(), entityManager);
 
         entityManager.getTransaction().commit();
-
-
-        System.out.println("users : ");
-        entityManager.createQuery(
-                "from User", User.class
-        ).getResultList().forEach(u -> System.out.println(u.getId() + " " + u.getFirstName()));
-
-
-        System.out.println("admins : ");
-        entityManager.createQuery(
-                "from Admin", Admin.class
-        ).getResultList().forEach(u -> System.out.println(u.getId() + " " + u.getFirstName()));
-
-        System.out.println("Customers : ");
-        entityManager.createQuery(
-                "from Customer", Customer.class
-        ).getResultList().forEach(u -> System.out.println(u.getId() + " " + u.getFirstName()));
     }
 
     private static Set<Address> getRandomAddress(EntityManager entityManager, int numberOfAddress) {
@@ -65,5 +47,12 @@ public class JpaApplication {
         address.setPostalCode(faker.address().zipCode());
         entityManager.persist(address);
         return address;
+    }
+
+    private static void create(Customer customer, EntityManager entityManager) {
+//        Wallet wallet = new Wallet();
+//        entityManager.persist(wallet);
+        customer.setWallet(new Wallet());
+        entityManager.persist(customer);
     }
 }
