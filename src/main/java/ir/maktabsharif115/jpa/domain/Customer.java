@@ -16,10 +16,15 @@ import java.time.ZonedDateTime;
 public class Customer extends User {
 
     public static final String PASSWORD_VALID_DATE = "password_valid_date";
+    public static final String WALLET_ID = "wallet_id";
 
     @Column(name = PASSWORD_VALID_DATE)
     private ZonedDateTime passwordValidDate;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = WALLET_ID)
     private Wallet wallet;
+
+    @Column(name = WALLET_ID, insertable = false, updatable = false)
+    private Long walletId;
 }

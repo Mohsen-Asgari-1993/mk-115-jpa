@@ -22,4 +22,8 @@ public class CustomerSearch implements Serializable {
 
     private String mobileNumber;
 
+    private Long minWallet;
+
+    private Long maxWallet;
+
 }
