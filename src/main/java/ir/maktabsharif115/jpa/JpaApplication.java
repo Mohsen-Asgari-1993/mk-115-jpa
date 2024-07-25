@@ -23,11 +23,15 @@ public class JpaApplication {
         EntityManager entityManager = applicationContext.getEntityManager();
 
         entityManager.getTransaction().begin();
-        Customer customer = new Customer();
-        customer.setFirstName("mohsen");
-        customer.setLastName("asgari");
-        customer.setUsername("mat");
-        create(new Customer(), entityManager);
+
+        Customer customer = entityManager.find(Customer.class, 1L);
+        System.out.println("customer firstName before change: " + customer.getFirstName());
+        customer.setFirstName(
+                faker.name().firstName()
+        );
+        System.out.println("customer firstName before refresh: " + customer.getFirstName());
+        entityManager.refresh(customer);
+        System.out.println("customer firstName after refresh: " + customer.getFirstName());
 
         entityManager.getTransaction().commit();
     }
