@@ -1,13 +1,14 @@
 package ir.maktabsharif115.jpa.domain;
 
 import ir.maktabsharif115.jpa.base.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -15,9 +16,28 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = User.FULL_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "roles", subgraph = "roles_subgraph")
+                        },
+                        subgraphs = {
+                                @NamedSubgraph(
+                                        name = "roles_subgraph",
+                                        attributeNodes = {
+                                                @NamedAttributeNode(value = "operations")
+                                        }
+                                )
+                        }
+                )
+        }
+)
 public class User extends BaseEntity<Long> {
 
     public static final String TABLE_NAME = "users";
+    public static final String FULL_GRAPH = "users_fullGraph";
 
     public static final String MOBILE_NUMBER = "mobile_number";
     public static final String FIRST_NAME = "first_name";
@@ -39,4 +59,10 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = MOBILE_NUMBER)
     private String mobileNumber;
+
+    @ManyToMany
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToOne
+    private Role role;
 }
