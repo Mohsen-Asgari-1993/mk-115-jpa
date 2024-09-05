@@ -1,6 +1,5 @@
 package ir.maktabsharif115.jpa;
 
-import ir.maktabsharif115.jpa.domain.User;
 import lombok.*;
 
 import java.io.*;
@@ -20,7 +19,9 @@ public class JpaApplication {
         try (FileOutputStream fileOutputStream = new FileOutputStream("object.txt")) {
             try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
                 objectOutputStream.writeObject(
-                        new Test("mohsen")
+                        Test.builder()
+                                .name("mohsen")
+                                .build()
                 );
             }
         }
@@ -30,9 +31,7 @@ public class JpaApplication {
     private static void readObjectFromFile() {
         try (FileInputStream fileInputStream = new FileInputStream("object.txt")) {
             try (ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                Object readObject = objectInputStream.readObject();
-                User test = (User) readObject;
-                System.out.println(test.getFirstName());
+                System.out.println(objectInputStream.readObject());
             }
         }
     }
@@ -43,6 +42,15 @@ public class JpaApplication {
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@Builder
 class Test implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 5;
+
     private String name;
+
+    private String id;
+
 }
