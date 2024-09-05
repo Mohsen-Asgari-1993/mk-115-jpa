@@ -1,34 +1,48 @@
 package ir.maktabsharif115.jpa;
 
-import lombok.SneakyThrows;
+import ir.maktabsharif115.jpa.domain.User;
+import lombok.*;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class JpaApplication {
 
     @SneakyThrows
     public static void main(String[] args) {
 
-        StringBuilder resultStringBuilder = new StringBuilder();
-        try (
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(
-                                new FileInputStream("my-name.txt")
-                        )
-//                        new FileReader(
-//                                "my-name.txt"
-//                        )
-                )
-        ) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                resultStringBuilder.append(line).append("\n");
-            }
-        }
+//        writeObjectToFile();
+        readObjectFromFile();
 
-        System.out.println(resultStringBuilder);
+
     }
 
+    private static void writeObjectToFile() throws IOException {
+        try (FileOutputStream fileOutputStream = new FileOutputStream("object.txt")) {
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                objectOutputStream.writeObject(
+                        new Test("mohsen")
+                );
+            }
+        }
+    }
+
+    @SneakyThrows
+    private static void readObjectFromFile() {
+        try (FileInputStream fileInputStream = new FileInputStream("object.txt")) {
+            try (ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+                Object readObject = objectInputStream.readObject();
+                User test = (User) readObject;
+                System.out.println(test.getFirstName());
+            }
+        }
+    }
+
+}
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+class Test implements Serializable {
+    private String name;
 }
