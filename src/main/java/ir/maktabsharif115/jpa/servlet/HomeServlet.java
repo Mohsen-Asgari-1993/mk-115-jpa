@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 
 @WebServlet(name = "home", urlPatterns = "/")
@@ -21,6 +22,9 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("pageTitle", "page title from attr");
         request.setAttribute("myName", faker.name().firstName());
         request.setAttribute("myName2", faker.name().firstName());
+        request.setAttribute(
+                "names", List.of("a", "b", "c", "d")
+        );
         request.getRequestDispatcher("home.jsp")
                 .forward(request, response);
     }
